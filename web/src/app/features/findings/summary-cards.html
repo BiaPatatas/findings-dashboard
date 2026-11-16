@@ -1,0 +1,19 @@
+<section aria-labelledby="summary-title">
+  <h2 id="summary-title" class="sr-only">Findings abertos por severidade</h2>
+  <ul class="cards">
+    @for (c of cards(); track c.severity) {
+      <li>
+        <button
+          type="button"
+          class="card"
+          [class.active]="active() === c.severity"
+          [attr.aria-pressed]="active() === c.severity"
+          (click)="pick.emit(c.severity)">
+          <span class="count">{{ c.count }}</span>
+          <app-severity-badge [severity]="c.severity" />
+          <span class="hint">abertos</span>
+        </button>
+      </li>
+    }
+  </ul>
+</section>

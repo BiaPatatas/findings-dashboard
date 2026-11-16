@@ -1,0 +1,43 @@
+<aside class="panel" role="complementary" aria-labelledby="detail-title">
+  <header>
+    <h2 id="detail-title" #heading tabindex="-1">{{ finding().title }}</h2>
+    <button type="button" class="close" (click)="close.emit()" aria-label="Fechar detalhe">✕</button>
+  </header>
+
+  <dl>
+    <dt>Severidade</dt>
+    <dd><app-severity-badge [severity]="finding().severity" /></dd>
+
+    <dt>Projeto</dt>
+    <dd>{{ finding().project.name }}</dd>
+
+    <dt>Estado atual</dt>
+    <dd>{{ finding().status.replace('_', ' ') }}</dd>
+
+    <dt>Detetado em</dt>
+    <dd>{{ finding().firstSeen | date: 'dd/MM/yyyy HH:mm' }}</dd>
+
+    <dt>Descrição</dt>
+    <dd>{{ finding().description }}</dd>
+  </dl>
+
+  <div class="change">
+    <label for="new-status">Alterar estado</label>
+    <select id="new-status" [ngModel]="newStatus()" (ngModelChange)="newStatus.set($event)">
+      @for (s of statuses; track s.value) {
+        <option [value]="s.value">{{ s.label }}</option>
+      }
+    </select>
+
+    <button
+      type="button"
+      (click)="save.emit(newStatus())"
+      [disabled]="saving() || newStatus() === finding().status">
+      {{ saving() ? 'A guardar…' : 'Guardar' }}
+    </button>
+  </div>
+
+  @if (errorMsg()) {
+    <p class="msg-error" role="alert">{{ errorMsg() }}</p>
+  }
+</aside>

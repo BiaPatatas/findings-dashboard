@@ -1,0 +1,61 @@
+// This is your Prisma schema file,
+//Modelo de dados
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Severity { 
+  CRITICAL
+  HIGH 
+  MEDIUM 
+  LOW 
+  INFO 
+ }
+
+enum Status { 
+  OPEN 
+  IN_PROGRESS 
+  RESOLVED 
+  FALSE_POSITIVE 
+}
+
+model Project {
+  id       Int       @id @default(autoincrement())
+  name     String    @unique
+  findings Finding[]
+}
+
+model Finding {
+  id          Int        @id @default(autoincrement())
+  title       String
+  description String
+  severity    Severity
+  status      Status     @default(OPEN)
+  firstSeen   DateTime   @default(now())
+  projectId   Int
+  project     Project    @relation(fields: [projectId], references: [id])
+  auditLogs   AuditLog[]
+
+  @@index([projectId, status, severity])
+  @@index([firstSeen])
+}
+
+model AuditLog {
+  id         Int      @id @default(autoincrement())
+  findingId  Int
+  finding    Finding  @relation(fields: [findingId], references: [id])
+  fromStatus Status
+  toStatus   Status
+  actor      String
+  createdAt  DateTime @default(now())
+}

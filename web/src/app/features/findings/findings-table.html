@@ -1,0 +1,29 @@
+<div class="table-wrap">
+  <table>
+    <caption class="sr-only">Lista de findings de segurança</caption>
+    <thead>
+      <tr>
+        <th scope="col">Severity</th>
+        <th scope="col">Title</th>
+        <th scope="col">Project</th>
+        <th scope="col">Status</th>
+        <th scope="col">Detected on</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (f of items(); track f.id) {
+        <tr [class.selected]="f.id === selectedId()">
+          <td><app-severity-badge [severity]="f.severity" /></td>
+          <th scope="row" class="title">
+            <button type="button" class="link" (click)="select.emit(f)">
+              {{ f.title }}
+            </button>
+          </th>
+          <td>{{ f.project.name }}</td>
+          <td>{{ f.status.replace('_', ' ') }}</td>
+          <td>{{ f.firstSeen | date: 'dd/MM/yyyy' }}</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>
