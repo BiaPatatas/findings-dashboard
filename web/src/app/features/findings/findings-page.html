@@ -8,9 +8,9 @@
 }
 
 <form [formGroup]="filters">
-  <input formControlName="search" placeholder="Pesquisar..." aria-label="Pesquisar" />
+  <input formControlName="search" placeholder="Search..." aria-label="Pesquisar" />
   <select formControlName="severity" aria-label="Severidade">
-    <option value="">Todas</option>
+    <option value="">All</option>
     <option value="CRITICAL">Critical</option>
     <option value="HIGH">High</option>
     <option value="MEDIUM">Medium</option>
@@ -18,7 +18,7 @@
     <option value="INFO">Info</option>
   </select>
   <select formControlName="status" aria-label="Estado">
-    <option value="">Todos</option>
+    <option value="">All</option>
     <option value="OPEN">Open</option>
     <option value="IN_PROGRESS">In progress</option>
     <option value="RESOLVED">Resolved</option>
@@ -28,7 +28,7 @@
 
 @if (state$ | async; as state) {
   @if (state.status === 'loading') {
-    <p role="status" class="sr-only">A carregar findings…</p>
+    <p role="status" class="sr-only"> Loading findings…</p>
     <div class="skeleton" aria-hidden="true">
       @for (i of skeletonRows; track i) {
         <div class="sk-row"></div>
@@ -36,24 +36,24 @@
     </div>
   } @else if (state.status === 'error') {
     <div class="state error" role="alert">
-      <h2>Não foi possível carregar os findings</h2>
-      <p>Verifica a tua ligação ou tenta novamente dentro de instantes.</p>
-      <button type="button" (click)="retry()">Tentar de novo</button>
+      <h2>Was not possible to load the findings</h2>
+      <p>Verify your connection or ty again in a few moments.</p>
+      <button type="button" (click)="retry()">Try again</button>
     </div>
   } @else if (state.status === 'ready') {
     @if (state.data.items.length === 0) {
       <div class="state empty" role="status">
-        <h2>Nenhum finding encontrado</h2>
-        <p>Nenhum resultado corresponde aos filtros atuais.</p>
-        <button type="button" (click)="clearFilters()">Limpar filtros</button>
+        <h2>No findings</h2>
+        <p>No results match the current filters.</p>
+        <button type="button" (click)="clearFilters()">Clean filters</button>
       </div>
     } @else {
       <p aria-live="polite">
-        A mostrar
+        Showing
         {{ (state.data.page - 1) * state.data.pageSize + 1 }}–{{
           (state.data.page - 1) * state.data.pageSize + state.data.items.length
         }}
-        de {{ state.data.total }} resultados
+        of {{ state.data.total }} results
       </p>
 
       <div class="layout" [class.with-panel]="selected()">
@@ -68,17 +68,17 @@
               type="button"
               (click)="goToPage(state.data.page - 1)"
               [disabled]="state.data.page <= 1">
-              ← Anterior
+              ← Previous
             </button>
             <span>
-              Página {{ state.data.page }} de
+              Page {{ state.data.page }} of
               {{ totalPages(state.data.total, state.data.pageSize) }}
             </span>
             <button
               type="button"
               (click)="goToPage(state.data.page + 1)"
               [disabled]="state.data.page >= totalPages(state.data.total, state.data.pageSize)">
-              Seguinte →
+              Next →
             </button>
           </nav>
         </div>
