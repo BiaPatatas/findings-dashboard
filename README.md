@@ -3,7 +3,7 @@
 A full-stack dashboard for triaging security findings across hardware IP projects.
 Built with **PostgreSQL, Prisma, NestJS, Angular and Docker**.
 
-![Dashboard screenshot](docs/screenshot.png)
+![Dashboard screenshot](docs/Screenshot.png)
 
 I built this to show how I approach a problem end to end: a normalized data model,
 a validated and auditable API, and a UI that makes a large, complex dataset usable
