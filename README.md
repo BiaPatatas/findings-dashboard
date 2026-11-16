@@ -141,4 +141,4 @@ Full interactive documentation is available at `/docs` (OpenAPI/Swagger).
 
 ---
 
-Built by Beatriz Patatas · [LinkedIn](https://www.linkedin.com/in/your-profile)
+
